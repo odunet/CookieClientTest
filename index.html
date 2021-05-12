@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie</title>
+</head>
+<body>
+    <h1>
+        Cookie
+    </h1>
+    <button id="btn">btn</button>
+    <button id="btn2">btn2</button>
+</body>
+<script>
+    document.cookie = "name=oeschger"
+    document.cookie = "spouse=oluwatosin"
+    document.cookie = "age=32"
+    console.log(document.cookie)
+    let temp = document.cookie.split(" ")
+    temp.forEach( (p) => {
+        let newP = p.split('=')
+        newP[1] = newP[1].substr(0, newP[1].length - 1);
+        console.log(newP)
+    }) 
+    let btn = document.getElementById("btn")
+
+    btn.addEventListener("click", (e) =>{
+        console.log(e)
+        localStorage.setItem('myCat', 'Tom1');
+        sessionStorage.setItem('myCat', 'Tom2');
+        console.log(`The local storage is: ${localStorage}`)
+        console.log(`The local storage is: ${sessionStorage}`)
+    })
+
+    let btn2 = document.getElementById("btn2")
+
+    btn2.addEventListener("click", async (e) =>{
+        let _data = {
+            email: "odunet@odunet.com",
+            password: "starmanyou",
+        }
+        let data = await fetch('http://localhost:5000/api/auth/login', {
+            method: 'POST',
+            body: JSON.stringify(_data),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            },
+            credentials: 'include'
+        })
+
+        for(let entry of data.headers.entries()) {
+            console.log('header', entry);
+          }
+
+        let response = await data.json()
+
+        console.log(document.cookie)
+
+        console.log(response)
+        
+    })
+</script>
+</html>
